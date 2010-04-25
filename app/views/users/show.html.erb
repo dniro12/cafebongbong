@@ -1,10 +1,14 @@
 <table class="profile">
   <tr>
+	<td>
+	 <%= image_tag @user.avatar.url(:thumnail) %>
+	</td>
     <td class="main">
       <h2>
         <%= h @user.name %>
       </h2>
     </td>
+
     <td class="sidebar round">
       <strong>Name</strong> <%= h @user.name %><br />
       <strong>URL</strong>  <%= link_to user_path(@user), @user %>

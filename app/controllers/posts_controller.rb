@@ -1,8 +1,4 @@
 class PostsController < ApplicationController
-  
-   
-   
-   
    
    #before_filter :find_post,  
    #:only => [:show, :edit, :update, :destroy] 
@@ -10,7 +6,9 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.xml
   def index
-    @posts = Post.find(:all)
+     #@posts = Post.find(:all , :include => :user, :conditions => { :users => { :name => nil } })
+     @posts = Post.find_main_posts()
+    
 
     respond_to do |format|
       format.html # index.html.erb
@@ -22,6 +20,7 @@ class PostsController < ApplicationController
   # GET /posts/1.xml
   def show
     @post = Post.find(params[:id])
+    @user = User.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb

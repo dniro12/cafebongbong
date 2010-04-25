@@ -11,8 +11,10 @@
 #
 
 class User < ActiveRecord::Base
+  has_many :Posts
+  
   attr_accessor :password
-  attr_accessible :name, :email, :password, :password_confirmation
+  attr_accessible :name, :email, :password, :password_confirmation, :avatar 
   EmailRegex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   
   validates_presence_of :name, :email
@@ -25,6 +27,10 @@ class User < ActiveRecord::Base
   validates_presence_of :password
   validates_length_of :password, :within => 6..40
   
+  #avatar Image File use for PaperClip : install needs! for styles nees for image_magic 
+  has_attached_file :avatar , :styles => {:thumb => "75x75>", :small => "150x150>"}
+  
+   
   # before_save filter
   before_save :encrypt_password
   
@@ -44,6 +50,8 @@ class User < ActiveRecord::Base
      return nil  if user.nil?
      return user if user.has_password?(submitted_password)
    end
+   
+
   
   private
   def encrypt_password
@@ -64,6 +72,5 @@ class User < ActiveRecord::Base
     def secure_hash(string)
       Digest::SHA2.hexdigest(string)
     end
- 
     
 end
