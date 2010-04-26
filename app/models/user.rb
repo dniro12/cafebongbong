@@ -28,7 +28,13 @@ class User < ActiveRecord::Base
   validates_length_of :password, :within => 6..40
   
   #avatar Image File use for PaperClip : install needs! for styles nees for image_magic 
-  has_attached_file :avatar , :styles => {:thumb => "75x75>", :small => "150x150>"}
+  has_attached_file :avatar ,
+        :styles => {:thumb => "75x75>", :small => "150x150>"}, 
+        :storage => :s3, 
+        :s3_credentials => "#{RAILS_ROOT}/config/s3.yml", 
+        :path => "/:style/:filename",
+        :bucket => "cafebongbong"
+  
   
    
   # before_save filter
